@@ -1,0 +1,57 @@
+[
+  {
+    "Sourcefile": null,
+    "Include": "",
+    "Includepath": "C:\\Program Files (x86)\\Arduino\\hardware\\arduino\\avr\\cores\\arduino"
+  },
+  {
+    "Sourcefile": null,
+    "Include": "",
+    "Includepath": "C:\\Program Files (x86)\\Arduino\\hardware\\arduino\\avr\\variants\\standard"
+  },
+  {
+    "Sourcefile": "d:\\Arduino\\School\\EELab\\Sem2\\Final project\\build\\sketch\\final_project_main.ino.cpp",
+    "Include": "HCSR04.h",
+    "Includepath": "C:\\Users\\USER\\OneDrive\\文件\\Arduino\\libraries\\HCSR04\\src"
+  },
+  {
+    "Sourcefile": "d:\\Arduino\\School\\EELab\\Sem2\\Final project\\build\\sketch\\final_project_main.ino.cpp",
+    "Include": "AdvancedSevenSegment.h",
+    "Includepath": "C:\\Users\\USER\\OneDrive\\文件\\Arduino\\libraries\\Advance_Seven_Segment\\src"
+  },
+  {
+    "Sourcefile": "d:\\Arduino\\School\\EELab\\Sem2\\Final project\\build\\sketch\\final_project_main.ino.cpp",
+    "Include": "LM35.h",
+    "Includepath": "C:\\Users\\USER\\OneDrive\\文件\\Arduino\\libraries\\LM35"
+  },
+  {
+    "Sourcefile": "d:\\Arduino\\School\\EELab\\Sem2\\Final project\\build\\sketch\\final_project_main.ino.cpp",
+    "Include": "TimerOne.h",
+    "Includepath": "C:\\Users\\USER\\OneDrive\\文件\\Arduino\\libraries\\TimerOne-1.1.0"
+  },
+  {
+    "Sourcefile": "d:\\Arduino\\School\\EELab\\Sem2\\Final project\\build\\sketch\\final_project_main.ino.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "C:\\Users\\USER\\OneDrive\\文件\\Arduino\\libraries\\HCSR04\\src\\HCSR04.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "C:\\Users\\USER\\OneDrive\\文件\\Arduino\\libraries\\Advance_Seven_Segment\\src\\AdvancedSevenSegment.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "C:\\Users\\USER\\OneDrive\\文件\\Arduino\\libraries\\LM35\\LM35.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "C:\\Users\\USER\\OneDrive\\文件\\Arduino\\libraries\\TimerOne-1.1.0\\TimerOne.cpp",
+    "Include": "",
+    "Includepath": null
+  }
+]
