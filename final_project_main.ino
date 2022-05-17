@@ -34,7 +34,7 @@ void display_function(uint16_t step);
 // make number to char array 
 void to_display_chr_custom(float number) {
     String num_Str;
-    Serial.print("Step: " + String(mainStep));
+    Serial.print("Step: " + String(mainStep) + " ");
     Serial.print("Mode: "); // Serial output the mode 
 
     if (MODE) {// distance mode 
@@ -98,6 +98,7 @@ void change_mode() {
 //function for display 
 void move_step() {
     mainStep++;
+    //Serial.println("step : " + String(mainStep));
     if (mainStep == 6) {
         mainStep = 0;
 
@@ -125,13 +126,21 @@ void dis_ss() {
     int display_step[] = { Main_step_tmp , step_plus(Main_step_tmp) };
     boolean state = LOW;
 
-    for (auto& e : display_step) {
-        seg.refresh(); // clean display
-        display_function(e);
-        state = !state;
-        passive_pin(state);
-        delay(10);
-    }
+    //seg.refresh(); // clean display
+    digitalWrite(pin_dis[0], HIGH);
+    digitalWrite(pin_dis[1], LOW);
+    //display_function(display_step[0]);
+    seg.setNumber(4);
+    delay(10);
+    seg.refresh();
+
+    //seg.refresh(); // clean display
+    //digitalWrite(pin_dis[0], LOW);
+    //digitalWrite(pin_dis[1], HIGH);
+    //display_function(display_step[1]);
+    //seg.setNumber(0);
+    //delay(10);
+    //seg.refresh();
 }
 
 void setup() { // SETUP:
@@ -162,56 +171,89 @@ void loop() {
 }
 
 void display_function(uint16_t step) {
+
     if (MODE) { // distance mode 
+        //Serial.print("Mode: distance ");
         switch (step) {
+
         case 0:
             seg.setNumber(to_INT(display_chr[0]));
+            //Serial.print("Step: " + String(mainStep));
+            //Serial.println(" outText: " + String(to_INT(display_chr[0])));
             break;
         case 1:
             seg.setNumber(to_INT(display_chr[1]));
+            //Serial.print("Step: " + String(mainStep));
+            //Serial.println(" outText: " + String(to_INT(display_chr[1])));
             break;
         case 2:
             seg.setNumber(to_INT(display_chr[2]));
+            //Serial.print("Step: " + String(mainStep));
+            //Serial.println(" outText: " + String(to_INT(display_chr[2])));
             break;
         case 3:
             seg.setCharacter('c');
+            //Serial.print("Step: " + String(mainStep));
+            //Serial.println(" outText: " + String('c'));
             break;
         case 4:
             seg.print(n_SEG);
+            //Serial.print("Step: " + String(mainStep));
+            //Serial.println(" outText: " + String('n'));
             break;
         case 5: // space
             seg.clean();
+            //Serial.print("Step: " + String(mainStep));
+            //Serial.println(" outText: clear");
             break;
 
         default: // 
             seg.clean();
+            //Serial.print("Step: " + String(mainStep));
+            //Serial.println(" outText: None");
             break;
         }
     }
     else { //temperature mode  
+        //Serial.print("Mode: temperature ");
         switch (step) {
+
         case 0:
             seg.setNumber(to_INT(display_chr[0]));
+            //Serial.print("Step: " + String(mainStep));
+            //Serial.println(" outText: " + String(to_INT(display_chr[0])));
             break;
         case 1:
             seg.setNumber(to_INT(display_chr[1]));
+            //Serial.print("Step: " + String(mainStep));
+            //Serial.println(" outText: " + String(to_INT(display_chr[1])));
             seg.setDot(1);
             break;
         case 2:
             seg.setNumber(to_INT(display_chr[2]));
+            //Serial.print("Step: " + String(mainStep));
+            //Serial.println(" outText: " + String(to_INT(display_chr[2])));
             break;
         case 3:
             seg.print(o_SEG);
+            //Serial.print("Step: " + String(mainStep));
+            //Serial.println(" outText: " + String('o'));
             break;
         case 4:
             seg.setCharacter('c');
+            //Serial.print("Step: " + String(mainStep));
+            //Serial.println(" outText: " + String('c'));
             break;
         case 5: // space
             seg.clean();
+            //Serial.print("Step: " + String(mainStep));
+            //Serial.println(" outText: clear");
             break;
 
         default: // 
             seg.clean();
+            //Serial.print("Step: " + String(mainStep));
+            //Serial.println(" outText: None");
             break;
         }
     }
