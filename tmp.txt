@@ -1,0 +1,95 @@
+/*
+This is a code for NYCU EELab 09 exp4 code
+Written by Keith Lin (KYLiN)
+Date : 2022/3/1 
+*/
+
+#include <AdvancedSevenSegment.h>
+#include <TimerOne.h>
+
+#define step_plus(s) ((s + 1) == 6 ? 0: s + 1) // step de-overflow func 
+volatile uint16_t mainStep = 0; 
+
+const int test[] = {0,1,2,3,4,5,6,7}; // for test 
+#define n_SEG 0, 0, 1, 0, 1, 0, 1
+
+AdvanceSevenSegment seg(11, 10, 8, 7, 6, 12, 13, 9); // 2, 3, 4, 5, 6, 7, 8, 9
+void func(int step);
+void move_step(){
+  mainStep++;
+  if (mainStep == 6) {
+      mainStep = 0;
+  }
+  Serial.println(mainStep);
+  
+}
+
+int pin_dis[] = { 5,4 };
+void setup() {
+    Serial.begin(9600);
+    Serial.println("Hello world");
+    pinMode(pin_dis[0], OUTPUT);
+    pinMode(pin_dis[1], OUTPUT);
+    seg.setDot(1);
+
+    Timer1.initialize(750000); //0.75 second //750000 us //like thead 
+    Timer1.attachInterrupt(move_step);
+}
+// print 20 
+
+void passive_pin(boolean f_s) {
+    digitalWrite(pin_dis[0], f_s);
+    digitalWrite(pin_dis[1], !f_s);
+}
+
+void clr_dis() {
+    digitalWrite(pin_dis[0], LOW);
+    digitalWrite(pin_dis[1], LOW);
+}
+
+void dis_ss(){
+  boolean state = LOW;
+  int tmpStep = mainStep ; 
+  int index[] = {tmpStep,step_plus(tmpStep)};
+    for (auto & num : index){
+      clr_dis();
+      func(tmpStep);
+      state = !state;
+      passive_pin(state);
+      delay(10);
+    }
+}
+
+void loop() {
+  
+    dis_ss();
+
+}
+
+void func(int step){
+  switch (step) {
+      case 0:
+          seg.setNumber(0);
+          break;
+      case 1:
+          seg.setNumber(1);
+          break;
+      case 2:
+          seg.setNumber(3);
+          break;
+      case 3:
+          seg.setCharacter('c');
+          break;
+      case 4:
+          seg.print(n_SEG);
+          break;
+      case 5: // space
+          seg.setNumber(8);
+          break;
+
+      default: // 
+          seg.clean();
+          break;
+        
+    }
+}

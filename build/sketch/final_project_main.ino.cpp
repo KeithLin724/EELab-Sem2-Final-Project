@@ -7,8 +7,8 @@
 #include <TimerOne.h>
 
 //SETUP: the DistanceSensor 
-#define tri 13
-#define echo 12 
+#define tri A1
+#define echo A2 
 //setup the button using interrupt 
 #define button 2 
 // display 
@@ -19,7 +19,7 @@
 //sensor
 UltraSonicDistanceSensor distanceSensor(tri, echo);
 //display 
-AdvanceSevenSegment seg(4, 5, 8, 9, 10, 6, 7, 13); // GLOBAL: seven segment
+AdvanceSevenSegment seg(11, 10, 8, 7, 6, 12, 13, 9); // GLOBAL: seven segment
 const int pin_dis[] = { 5,4 }; // display change pin 
 char display_chr[6];
 //GLOBAL: temperature sensor 
@@ -36,21 +36,22 @@ void display_function(uint16_t step);
 // make number to char array 
 #line 35 "d:\\Arduino\\School\\EELab\\Sem2\\Final project\\final_project_main.ino"
 void to_display_chr_custom(float number);
-#line 77 "d:\\Arduino\\School\\EELab\\Sem2\\Final project\\final_project_main.ino"
+#line 78 "d:\\Arduino\\School\\EELab\\Sem2\\Final project\\final_project_main.ino"
 void change_mode();
-#line 98 "d:\\Arduino\\School\\EELab\\Sem2\\Final project\\final_project_main.ino"
+#line 99 "d:\\Arduino\\School\\EELab\\Sem2\\Final project\\final_project_main.ino"
 void move_step();
-#line 116 "d:\\Arduino\\School\\EELab\\Sem2\\Final project\\final_project_main.ino"
+#line 117 "d:\\Arduino\\School\\EELab\\Sem2\\Final project\\final_project_main.ino"
 void passive_pin(boolean f_s);
-#line 122 "d:\\Arduino\\School\\EELab\\Sem2\\Final project\\final_project_main.ino"
+#line 123 "d:\\Arduino\\School\\EELab\\Sem2\\Final project\\final_project_main.ino"
 void dis_ss();
-#line 136 "d:\\Arduino\\School\\EELab\\Sem2\\Final project\\final_project_main.ino"
+#line 137 "d:\\Arduino\\School\\EELab\\Sem2\\Final project\\final_project_main.ino"
 void setup();
-#line 159 "d:\\Arduino\\School\\EELab\\Sem2\\Final project\\final_project_main.ino"
+#line 160 "d:\\Arduino\\School\\EELab\\Sem2\\Final project\\final_project_main.ino"
 void loop();
 #line 35 "d:\\Arduino\\School\\EELab\\Sem2\\Final project\\final_project_main.ino"
 void to_display_chr_custom(float number) {
     String num_Str;
+    Serial.print("Step: " + String(mainStep));
     Serial.print("Mode: "); // Serial output the mode 
 
     if (MODE) {// distance mode 

@@ -16,9 +16,9 @@
 
 
 //sensor
-UltraSonicDistanceSensor distanceSensor(13, 12);
+UltraSonicDistanceSensor distanceSensor(A1, A2);
 //display 
-AdvanceSevenSegment seg(4, 5, 8, 9, 10, 6, 7, 13); // GLOBAL: seven segment
+AdvanceSevenSegment seg(11, 10, 8, 7, 6, 12, 13, 9); // GLOBAL: seven segment
 const int pin_dis[] = { 5,4 }; // display change pin 
 char display_chr[6];
 //GLOBAL: temperature sensor 
@@ -35,6 +35,7 @@ void display_function(uint16_t step);
 // make number to char array 
 void to_display_chr_custom(float number) {
     String num_Str;
+    Serial.print("Step: " + String(mainStep));
     Serial.print("Mode: "); // Serial output the mode 
 
     if (MODE) {// distance mode 

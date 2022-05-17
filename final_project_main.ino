@@ -119,6 +119,11 @@ void passive_pin(boolean f_s) {
     digitalWrite(pin_dis[1], !f_s);
 }
 
+void clr_dis() {
+    digitalWrite(pin_dis[0], LOW);
+    digitalWrite(pin_dis[1], LOW);
+}
+
 // display function 
 void dis_ss() {
     auto Main_step_tmp = mainStep;
@@ -126,11 +131,12 @@ void dis_ss() {
     boolean state = LOW;
 
     for (auto& e : display_step) {
-        seg.refresh(); // clean display
+        clr_dis();
         display_function(e);
         state = !state;
         passive_pin(state);
         delay(10);
+
     }
 }
 
@@ -153,6 +159,7 @@ void setup() { // SETUP:
     //init function 
     MODE = 0;
     to_display_chr_custom(distanceSensor.measureDistanceCm(temp.cel()));
+    seg.setDot(0);
 
 }
 
@@ -162,6 +169,7 @@ void loop() {
 }
 
 void display_function(uint16_t step) {
+    seg.setDot(0);
     if (MODE) { // distance mode 
         switch (step) {
         case 0:
