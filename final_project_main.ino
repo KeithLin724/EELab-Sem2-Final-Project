@@ -34,7 +34,7 @@ void display_function(uint16_t step);
 // make number to char array 
 void to_display_chr_custom(float number) {
     String num_Str;
-    Serial.print("Step: " + String(mainStep));
+    //Serial.print("Step: " + String(mainStep));
     Serial.print("Mode: "); // Serial output the mode 
 
     if (MODE) {// distance mode 

@@ -5,3 +5,8 @@ https://pijaeducation.com/arduino/seven-segment/display-two-digit-number-on-seve
 
 ### shiftOut
 https://www.arduino.cc/reference/en/language/functions/advanced-io/shiftout/
+
+### simulation 
+https://wokwi.com/projects/331907495560741458
+
+
