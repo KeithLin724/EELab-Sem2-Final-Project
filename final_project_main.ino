@@ -1,3 +1,11 @@
+/*
+Title:Final Project
+Written By Keith Lin
+This is a code about the EELab
+ sem 2 final project exp 4 arduino
+Date: 22/5/2022
+*/
+
 //IMPORT:
 #include <HCSR04.h>
 #include <AdvancedSevenSegment.h>
@@ -10,7 +18,6 @@
 //setup the button using interrupt 
 #define button 2 
 // display 
-//#define C_SEG 1, 0, 0, 1, 1, 1, 0
 #define n_SEG 0, 0, 1, 0, 1, 0, 1
 #define o_SEG 1, 1, 0, 0, 0, 1, 1
 
@@ -34,37 +41,27 @@ void display_function(uint16_t step);
 // make number to char array 
 void to_display_chr_custom(float number) {
     String num_Str;
-    //Serial.print("Step: " + String(mainStep));
     Serial.print("Mode: "); // Serial output the mode 
 
     if (MODE) {// distance mode 
         Serial.print("distance mode, ");
+
+        num_Str = String(static_cast<int>(number));
         if (number < 100) {
             // add zero in front 
+            num_Str = String("000");
             if (number > 0) {
                 num_Str = String('0') + String(static_cast<int>(number));
             }
-            else {
-                num_Str = String("000");
-            }
-
         }
-        else {
-            num_Str = String(static_cast<int>(number));
 
-        }
         Serial.print((number < 0 ? 0 : number));
         Serial.println(" cm");
     }
     else { //temperature mode  
         Serial.print("temperature mode, ");
 
-        if (number < 100) {
-            num_Str = String(static_cast<int>(number * 10));
-        }
-        else {
-            num_Str = String(static_cast<int>(number));
-        }
+        num_Str = String(static_cast<int>((number < 100 ? number * 10 : number)));
 
         Serial.print(number);
         Serial.println(" C");
@@ -83,12 +80,7 @@ void change_mode() {
         MODE = !MODE; //change mode 
         mainStep = 0; //init step 
 
-        if (MODE) { // distance mode 
-            to_display_chr_custom(distanceSensor.measureDistanceCm(temp.cel()));
-        }
-        else { //temperature mode  
-            to_display_chr_custom(temp.cel());
-        }
+        to_display_chr_custom((MODE == true ? distanceSensor.measureDistanceCm(temp.cel()) : temp.cel()));
 
     }
     last_interrupt_time = interrupt_time;
@@ -103,13 +95,7 @@ void move_step() {
 
     }
     else if (mainStep == 5) {
-        if (MODE) { // distance mode 
-            to_display_chr_custom(distanceSensor.measureDistanceCm(temp.cel()));
-        }
-        else { //temperature mode  
-            to_display_chr_custom(temp.cel());
-        }
-
+        to_display_chr_custom((MODE == true ? distanceSensor.measureDistanceCm(temp.cel()) : temp.cel()));
     }
 
 }
