@@ -19,7 +19,7 @@
 //sensor
 UltraSonicDistanceSensor distanceSensor(tri, echo);
 //display 
-AdvanceSevenSegment seg(11, 10, 8, 7, 6, 12, 13, 9); // GLOBAL: seven segment
+AdvanceSevenSegment seg(12, 13, 8, 7, 6, 11, 10, 9); // GLOBAL: seven segment //11, 10, 8, 7, 6, 12, 13, 9
 const int pin_dis[] = { 5,4 }; // display change pin 
 char display_chr[6];
 //GLOBAL: temperature sensor 
@@ -91,7 +91,7 @@ void to_display_chr_custom(float number) {
     }
 
     num_Str.toCharArray(display_chr, 6);
-
+    //Serial.println(analogRead(A0));
 }
 // change mode from button  
 void change_mode() {
