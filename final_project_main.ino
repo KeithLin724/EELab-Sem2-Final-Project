@@ -38,7 +38,11 @@ volatile uint16_t mainStep = 0; // only 6 step
 // display function according the step 
 void display_function(uint16_t step);
 
-// make number to char array 
+/**
+ * @brief Make number to Char array
+ *
+ * @param number want number to display array
+ */
 void to_display_chr_custom(float number) {
     String num_Str;
     Serial.print("Mode: "); // Serial output the mode 
@@ -69,9 +73,11 @@ void to_display_chr_custom(float number) {
     }
 
     num_Str.toCharArray(display_chr, 6);
-    //Serial.println(analogRead(A0));
 }
-// change mode from button  
+/**
+ * @brief Change mode from button
+ *
+ */
 void change_mode() {
     static uint32_t last_interrupt_time = 0;
     uint32_t interrupt_time = millis();
@@ -87,7 +93,10 @@ void change_mode() {
 
 }
 
-//function for display 
+/**
+ * @brief function for display
+ *
+ */
 void move_step() {
     mainStep++;
     if (mainStep == 6) {
@@ -110,7 +119,10 @@ void clr_dis() {
     digitalWrite(pin_dis[1], LOW);
 }
 
-// display function 
+/**
+ * @brief Display function
+ *
+ */
 void dis_ss() {
     auto Main_step_tmp = mainStep;
     int display_step[] = { Main_step_tmp , step_plus(Main_step_tmp) };
@@ -149,11 +161,19 @@ void setup() { // SETUP:
 
 }
 
-// only display 
+/**
+ * @brief Only display
+ *
+ */
 void loop() {
     dis_ss();
 }
 
+/**
+ * @brief display_function
+ *
+ * @param step For display
+ */
 void display_function(uint16_t step) {
     seg.setDot(0);
     if (MODE) { // distance mode 
