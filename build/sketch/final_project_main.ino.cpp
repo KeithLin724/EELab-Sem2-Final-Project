@@ -1,5 +1,13 @@
 #include <Arduino.h>
 #line 1 "d:\\Arduino\\School\\EELab\\Sem2\\Final project\\final_project_main.ino"
+/*
+Title:Final Project
+Written By Keith Lin
+This is a code about the EELab
+ sem 2 final project exp 4 arduino
+Date: 22/5/2022
+*/
+
 //IMPORT:
 #include <HCSR04.h>
 #include <AdvancedSevenSegment.h>
@@ -12,7 +20,6 @@
 //setup the button using interrupt 
 #define button 2 
 // display 
-//#define C_SEG 1, 0, 0, 1, 1, 1, 0
 #define n_SEG 0, 0, 1, 0, 1, 0, 1
 #define o_SEG 1, 1, 0, 0, 0, 1, 1
 
@@ -33,57 +40,51 @@ volatile uint16_t mainStep = 0; // only 6 step
 // display function according the step 
 void display_function(uint16_t step);
 
-// make number to char array 
-#line 35 "d:\\Arduino\\School\\EELab\\Sem2\\Final project\\final_project_main.ino"
+/**
+ * @brief Make number to Char array
+ *
+ * @param number want number to display array
+ */
+#line 46 "d:\\Arduino\\School\\EELab\\Sem2\\Final project\\final_project_main.ino"
 void to_display_chr_custom(float number);
-#line 78 "d:\\Arduino\\School\\EELab\\Sem2\\Final project\\final_project_main.ino"
+#line 81 "d:\\Arduino\\School\\EELab\\Sem2\\Final project\\final_project_main.ino"
 void change_mode();
-#line 99 "d:\\Arduino\\School\\EELab\\Sem2\\Final project\\final_project_main.ino"
+#line 100 "d:\\Arduino\\School\\EELab\\Sem2\\Final project\\final_project_main.ino"
 void move_step();
-#line 117 "d:\\Arduino\\School\\EELab\\Sem2\\Final project\\final_project_main.ino"
+#line 112 "d:\\Arduino\\School\\EELab\\Sem2\\Final project\\final_project_main.ino"
 void passive_pin(boolean f_s);
-#line 122 "d:\\Arduino\\School\\EELab\\Sem2\\Final project\\final_project_main.ino"
+#line 117 "d:\\Arduino\\School\\EELab\\Sem2\\Final project\\final_project_main.ino"
 void clr_dis();
-#line 128 "d:\\Arduino\\School\\EELab\\Sem2\\Final project\\final_project_main.ino"
+#line 126 "d:\\Arduino\\School\\EELab\\Sem2\\Final project\\final_project_main.ino"
 void dis_ss();
-#line 143 "d:\\Arduino\\School\\EELab\\Sem2\\Final project\\final_project_main.ino"
+#line 141 "d:\\Arduino\\School\\EELab\\Sem2\\Final project\\final_project_main.ino"
 void setup();
-#line 167 "d:\\Arduino\\School\\EELab\\Sem2\\Final project\\final_project_main.ino"
+#line 168 "d:\\Arduino\\School\\EELab\\Sem2\\Final project\\final_project_main.ino"
 void loop();
-#line 35 "d:\\Arduino\\School\\EELab\\Sem2\\Final project\\final_project_main.ino"
+#line 46 "d:\\Arduino\\School\\EELab\\Sem2\\Final project\\final_project_main.ino"
 void to_display_chr_custom(float number) {
     String num_Str;
-    //Serial.print("Step: " + String(mainStep));
     Serial.print("Mode: "); // Serial output the mode 
 
     if (MODE) {// distance mode 
         Serial.print("distance mode, ");
+
+        num_Str = String(static_cast<int>(number));
         if (number < 100) {
             // add zero in front 
+            num_Str = String("000");
             if (number > 0) {
                 num_Str = String('0') + String(static_cast<int>(number));
             }
-            else {
-                num_Str = String("000");
-            }
-
         }
-        else {
-            num_Str = String(static_cast<int>(number));
 
-        }
         Serial.print((number < 0 ? 0 : number));
         Serial.println(" cm");
     }
     else { //temperature mode  
         Serial.print("temperature mode, ");
 
-        if (number < 100) {
-            num_Str = String(static_cast<int>(number * 10));
-        }
-        else {
-            num_Str = String(static_cast<int>(number));
-        }
+        num_Str = String(static_cast<int>((number < 100 ? number * 10 : number)));
 
         Serial.print(number);
         Serial.println(" C");
@@ -91,9 +92,11 @@ void to_display_chr_custom(float number) {
     }
 
     num_Str.toCharArray(display_chr, 6);
-    //Serial.println(analogRead(A0));
 }
-// change mode from button  
+/**
+ * @brief Change mode from button
+ *
+ */
 void change_mode() {
     static uint32_t last_interrupt_time = 0;
     uint32_t interrupt_time = millis();
@@ -102,19 +105,17 @@ void change_mode() {
         MODE = !MODE; //change mode 
         mainStep = 0; //init step 
 
-        if (MODE) { // distance mode 
-            to_display_chr_custom(distanceSensor.measureDistanceCm(temp.cel()));
-        }
-        else { //temperature mode  
-            to_display_chr_custom(temp.cel());
-        }
+        to_display_chr_custom((MODE == true ? distanceSensor.measureDistanceCm(temp.cel()) : temp.cel()));
 
     }
     last_interrupt_time = interrupt_time;
 
 }
 
-//function for display 
+/**
+ * @brief function for display
+ *
+ */
 void move_step() {
     mainStep++;
     if (mainStep == 6) {
@@ -122,13 +123,7 @@ void move_step() {
 
     }
     else if (mainStep == 5) {
-        if (MODE) { // distance mode 
-            to_display_chr_custom(distanceSensor.measureDistanceCm(temp.cel()));
-        }
-        else { //temperature mode  
-            to_display_chr_custom(temp.cel());
-        }
-
+        to_display_chr_custom((MODE == true ? distanceSensor.measureDistanceCm(temp.cel()) : temp.cel()));
     }
 
 }
@@ -143,7 +138,10 @@ void clr_dis() {
     digitalWrite(pin_dis[1], LOW);
 }
 
-// display function 
+/**
+ * @brief Display function
+ *
+ */
 void dis_ss() {
     auto Main_step_tmp = mainStep;
     int display_step[] = { Main_step_tmp , step_plus(Main_step_tmp) };
@@ -182,11 +180,19 @@ void setup() { // SETUP:
 
 }
 
-// only display 
+/**
+ * @brief Only display
+ *
+ */
 void loop() {
     dis_ss();
 }
 
+/**
+ * @brief display_function
+ *
+ * @param step For display
+ */
 void display_function(uint16_t step) {
     seg.setDot(0);
     if (MODE) { // distance mode 
