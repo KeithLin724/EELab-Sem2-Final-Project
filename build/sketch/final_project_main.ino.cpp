@@ -47,50 +47,57 @@ void display_function(uint16_t step);
  */
 #line 46 "d:\\Arduino\\School\\EELab\\Sem2\\Final project\\final_project_main.ino"
 void to_display_chr_custom(float number);
-#line 81 "d:\\Arduino\\School\\EELab\\Sem2\\Final project\\final_project_main.ino"
+#line 88 "d:\\Arduino\\School\\EELab\\Sem2\\Final project\\final_project_main.ino"
 void change_mode();
-#line 100 "d:\\Arduino\\School\\EELab\\Sem2\\Final project\\final_project_main.ino"
+#line 107 "d:\\Arduino\\School\\EELab\\Sem2\\Final project\\final_project_main.ino"
 void move_step();
-#line 112 "d:\\Arduino\\School\\EELab\\Sem2\\Final project\\final_project_main.ino"
+#line 119 "d:\\Arduino\\School\\EELab\\Sem2\\Final project\\final_project_main.ino"
 void passive_pin(boolean f_s);
-#line 117 "d:\\Arduino\\School\\EELab\\Sem2\\Final project\\final_project_main.ino"
+#line 124 "d:\\Arduino\\School\\EELab\\Sem2\\Final project\\final_project_main.ino"
 void clr_dis();
-#line 126 "d:\\Arduino\\School\\EELab\\Sem2\\Final project\\final_project_main.ino"
+#line 133 "d:\\Arduino\\School\\EELab\\Sem2\\Final project\\final_project_main.ino"
 void dis_ss();
-#line 141 "d:\\Arduino\\School\\EELab\\Sem2\\Final project\\final_project_main.ino"
+#line 148 "d:\\Arduino\\School\\EELab\\Sem2\\Final project\\final_project_main.ino"
 void setup();
-#line 168 "d:\\Arduino\\School\\EELab\\Sem2\\Final project\\final_project_main.ino"
+#line 175 "d:\\Arduino\\School\\EELab\\Sem2\\Final project\\final_project_main.ino"
 void loop();
 #line 46 "d:\\Arduino\\School\\EELab\\Sem2\\Final project\\final_project_main.ino"
 void to_display_chr_custom(float number) {
-    String num_Str;
+    String num_Str = "";
+    auto tmpNumber = number;
     Serial.print("Mode: "); // Serial output the mode 
 
-    if (MODE) {// distance mode 
+    if (number < 0) {
+        String("000").toCharArray(display_chr, 6);
+        return;
+    }
+
+    if (MODE) { // distance mode (int)
         Serial.print("distance mode, ");
 
-        num_Str = String(static_cast<int>(number));
-        if (number < 100) {
-            // add zero in front 
-            num_Str = String("000");
-            if (number > 0) {
-                num_Str = String('0') + String(static_cast<int>(number));
-            }
+        if (number < 100) {// add zero in front 
+            num_Str += (number < 10 ? "00" : "0");
         }
+        tmpNumber = number;
 
         Serial.print((number < 0 ? 0 : number));
         Serial.println(" cm");
     }
-    else { //temperature mode  
+    else { //temperature mode  (float)
         Serial.print("temperature mode, ");
 
-        num_Str = String(static_cast<int>((number < 100 ? number * 10 : number)));
+        if (number < 100) {
+            if (number < 10) {
+                num_Str += "0";
+            }
+
+            tmpNumber *= 10;
+        }
 
         Serial.print(number);
         Serial.println(" C");
-
     }
-
+    num_Str += String(static_cast<int>(tmpNumber));
     num_Str.toCharArray(display_chr, 6);
 }
 /**

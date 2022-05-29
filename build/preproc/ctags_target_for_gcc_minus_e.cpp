@@ -56,34 +56,41 @@ void display_function(uint16_t step);
  */
 # 46 "d:\\Arduino\\School\\EELab\\Sem2\\Final project\\final_project_main.ino"
 void to_display_chr_custom(float number) {
-    String num_Str;
+    String num_Str = "";
+    auto tmpNumber = number;
     Serial.print("Mode: "); // Serial output the mode 
 
-    if (MODE) {// distance mode 
+    if (number < 0) {
+        String("000").toCharArray(display_chr, 6);
+        return;
+    }
+
+    if (MODE) { // distance mode (int)
         Serial.print("distance mode, ");
 
-        num_Str = String(static_cast<int>(number));
-        if (number < 100) {
-            // add zero in front 
-            num_Str = String("000");
-            if (number > 0) {
-                num_Str = String('0') + String(static_cast<int>(number));
-            }
+        if (number < 100) {// add zero in front 
+            num_Str += (number < 10 ? "00" : "0");
         }
+        tmpNumber = number;
 
         Serial.print((number < 0 ? 0 : number));
         Serial.println(" cm");
     }
-    else { //temperature mode  
+    else { //temperature mode  (float)
         Serial.print("temperature mode, ");
 
-        num_Str = String(static_cast<int>((number < 100 ? number * 10 : number)));
+        if (number < 100) {
+            if (number < 10) {
+                num_Str += "0";
+            }
+
+            tmpNumber *= 10;
+        }
 
         Serial.print(number);
         Serial.println(" C");
-
     }
-
+    num_Str += String(static_cast<int>(tmpNumber));
     num_Str.toCharArray(display_chr, 6);
 }
 /**
@@ -93,7 +100,7 @@ void to_display_chr_custom(float number) {
  *
 
  */
-# 81 "d:\\Arduino\\School\\EELab\\Sem2\\Final project\\final_project_main.ino"
+# 88 "d:\\Arduino\\School\\EELab\\Sem2\\Final project\\final_project_main.ino"
 void change_mode() {
     static uint32_t last_interrupt_time = 0;
     uint32_t interrupt_time = millis();
@@ -116,7 +123,7 @@ void change_mode() {
  *
 
  */
-# 100 "d:\\Arduino\\School\\EELab\\Sem2\\Final project\\final_project_main.ino"
+# 107 "d:\\Arduino\\School\\EELab\\Sem2\\Final project\\final_project_main.ino"
 void move_step() {
     mainStep++;
     if (mainStep == 6) {
@@ -146,7 +153,7 @@ void clr_dis() {
  *
 
  */
-# 126 "d:\\Arduino\\School\\EELab\\Sem2\\Final project\\final_project_main.ino"
+# 133 "d:\\Arduino\\School\\EELab\\Sem2\\Final project\\final_project_main.ino"
 void dis_ss() {
     auto Main_step_tmp = mainStep;
     int display_step[] = { Main_step_tmp , ((Main_step_tmp + 1) == 6 ? 0: Main_step_tmp + 1) /* step de-overflow func */ };
@@ -192,7 +199,7 @@ void setup() { // SETUP:
  *
 
  */
-# 168 "d:\\Arduino\\School\\EELab\\Sem2\\Final project\\final_project_main.ino"
+# 175 "d:\\Arduino\\School\\EELab\\Sem2\\Final project\\final_project_main.ino"
 void loop() {
     dis_ss();
 }
@@ -206,7 +213,7 @@ void loop() {
  * @param step For display
 
  */
-# 177 "d:\\Arduino\\School\\EELab\\Sem2\\Final project\\final_project_main.ino"
+# 184 "d:\\Arduino\\School\\EELab\\Sem2\\Final project\\final_project_main.ino"
 void display_function(uint16_t step) {
     seg.setDot(0);
     if (MODE) { // distance mode 
